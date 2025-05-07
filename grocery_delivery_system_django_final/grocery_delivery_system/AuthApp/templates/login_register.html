@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width,initial-scale=1" name="viewport" />
+    <title>LettuceEat | Login &amp; Signup</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --primary: #2A5D67;
+            --primary-dark: #1D4148;
+            --secondary: #B3544E;
+            --secondary-light: #D67D6E;
+            --accent: #C5A880;
+            --dark: #2D2D2D;
+            --light: #F4F0EB;
+            --gray-100: #F4F0EB;
+            --gray-200: #E8E2DC;
+            --gray-300: #D6D0CA;
+            --gray-600: #7A7875;
+            --gray-800: #3A3937;
+            --body-font: 'DM Sans', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, sans-serif;
+            --heading-font: 'Outfit', var(--body-font)
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--body-font)
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px
+        }
+
+        .auth-container {
+            background-color: #fff;
+            width: 100%;
+            max-width: 900px;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, .25);
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            min-height: 600px
+        }
+
+        @media (max-width:768px) {
+            .auth-container {
+                flex-direction: column;
+                min-height: auto
+            }
+
+            .auth-image {
+                display: none
+            }
+        }
+
+        .auth-image {
+            background: linear-gradient(rgba(42, 93, 103, .8), rgba(29, 65, 72, .8)), url('/api/placeholder/600/600') center/cover;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            padding: 40px;
+            position: relative
+        }
+
+        .auth-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('/api/placeholder/20/20') center/20px;
+            opacity: .1
+        }
+
+        .auth-logo {
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center
+        }
+
+        .auth-logo img {
+            height: 50px;
+            margin-right: 15px;
+            filter: brightness(0) invert(1)
+        }
+
+        .auth-logo h1 {
+            color: var(--accent);
+            font-size: 2rem;
+            font-weight: 800;
+            font-family: var(--heading-font)
+        }
+
+        .auth-tagline {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            font-family: var(--heading-font);
+            text-align: center
+        }
+
+        .auth-description {
+            font-size: 1rem;
+            text-align: center;
+            max-width: 80%;
+            opacity: .9;
+            margin-bottom: 30px
+        }
+
+        .auth-features {
+            display: flex;
+            flex-direction: column;
+            gap: 15px
+        }
+
+        .auth-feature {
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .auth-feature i {
+            font-size: 1.2rem;
+            width: 30px;
+            height: 30px;
+            background-color: rgba(197, 168, 128, .2);
+            color: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .auth-forms {
+            flex: 2;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden
+        }
+
+        .forms-container {
+            display: flex;
+            width: 210%;
+            transition: transform .5s ease
+        }
+
+        .form {
+            width: 50%;
+            padding: 0 20px
+        }
+
+        .form-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--dark);
+            font-family: var(--heading-font)
+        }
+
+        .form-subtitle {
+            color: var(--gray-600);
+            margin-bottom: 30px
+        }
+
+        .form-group {
+            margin-bottom: 20px
+        }
+
+        .form-label {
+            display: block;
+            font-size: .9rem;
+            margin-bottom: 8px;
+            color: var(--gray-800);
+            font-weight: 600
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--gray-300);
+            font-size: 1rem;
+            transition: all .3s ease
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(42, 93, 103, .1)
+        }
+
+        .form-input::placeholder {
+            color: var(--gray-600)
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--gray-300);
+            font-size: 1rem;
+            transition: all .3s ease;
+            background-color: #fff;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%237A7875' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: calc(100% - 15px) center;
+            padding-right: 35px
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(42, 93, 103, .1)
+        }
+
+        .password-field {
+            position: relative
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: 0 0;
+            border: none;
+            color: var(--gray-600);
+            cursor: pointer
+        }
+
+        .password-toggle:hover {
+            color: var(--primary)
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray-800);
+            font-size: .9rem
+        }
+
+        .remember-me input {
+            accent-color: var(--primary)
+        }
+
+        .forgot-password {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: .9rem;
+            font-weight: 600;
+            transition: color .3s ease
+        }
+
+        .forgot-password:hover {
+            color: var(--primary-dark)
+        }
+
+        .submit-btn {
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+            box-shadow: 0 5px 15px rgba(42, 93, 103, .3);
+            position: relative;
+            overflow: hidden
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(42, 93, 103, .4)
+        }
+
+        .submit-btn::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 300px;
+            background: rgba(255, 255, 255, .2);
+            transform: rotate(35deg);
+            top: -100px;
+            left: -150px;
+            transition: all .6s cubic-bezier(.19, 1, .22, 1)
+        }
+
+        .submit-btn:hover::after {
+            left: 120%
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            color: var(--gray-600);
+            font-size: .9rem
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--gray-300)
+        }
+
+        .divider span {
+            padding: 0 15px
+        }
+
+        .social-login {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px
+        }
+
+        .social-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--gray-300);
+            background-color: #fff;
+            font-size: .9rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            cursor: pointer;
+            transition: all .3s ease
+        }
+
+        .social-btn:hover {
+            background-color: var(--gray-100);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, .05)
+        }
+
+        .social-btn i {
+            font-size: 1.1rem
+        }
+
+        .facebook {
+            color: #4267B2
+        }
+
+        .google {
+            color: #DB4437
+        }
+
+        .toggle-form {
+            text-align: center;
+            margin-top: auto;
+            padding-top: 20px;
+            color: var(--gray-800)
+        }
+
+        .toggle-btn {
+            background: 0 0;
+            border: none;
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: color .3s ease
+        }
+
+        .toggle-btn:hover {
+            color: var(--primary-dark)
+        }
+
+        .active-form {
+            display: block
+        }
+
+        .inactive-form {
+            display: none
+        }
+
+        .form-signup-expanded {
+            max-height: 800px;
+            overflow-y: auto;
+            padding-right: 10px
+        }
+
+        .form-signup-expanded::-webkit-scrollbar {
+            width: 6px
+        }
+
+        .form-signup-expanded::-webkit-scrollbar-track {
+            background: var(--gray-100);
+            border-radius: 8px
+        }
+
+        .form-signup-expanded::-webkit-scrollbar-thumb {
+            background: var(--gray-300);
+            border-radius: 8px
+        }
+
+        .form-signup-expanded::-webkit-scrollbar-thumb:hover {
+            background: var(--gray-600)
+        }
+
+        .notification {
+            padding: 12px 20px;
+            border-radius: 5px;
+            margin-top: 10px;
+            background-color: #dff0d8;
+            color: #3c763d;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .notification-icon {
+            margin-right: 10px;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible
+        }
+
+        .notification-success {
+            background-color: var(--green)
+        }
+
+        .notification-error {
+            background-color: var(--red)
+        }
+
+        .notification-icon {
+            font-size: 1.2rem
+        }
+
+        .notification-message {
+            font-weight: 500
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            opacity: .7;
+            transition: opacity .3s ease;
+            margin-left: 10px
+        }
+
+        .notification-close:hover {
+            opacity: 1
+        }
+
+        .alert {
+            position: relative;
+            padding: 12px 20px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 12px;
+            top: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            color: inherit;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    {% if messages %}
+    <div class="message-container" style="position: absolute;top: 30px;left: 30px;z-index: 1000;">
+        {% for message in messages %}
+        <div class="alert {{ message.tags }}">
+            {{ message }}
+            <span class="close-btn" onclick="this.parentElement.style.display='none';" style="margin-left: 50px;">&times;</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="auth-container">
+
+        <div class="auth-image">
+            <div class="auth-logo">
+                <h1>LettuceEat</h1>
+            </div>
+            <h2 class="auth-tagline">Fresh Food, Delivered Fresh</h2>
+            <p class="auth-description">Join thousands of customers who get fresh groceries delivered daily.</p>
+            <div class="auth-features">
+                <div class="auth-feature"><i class="fas fa-truck"></i><span>Same-day delivery</span></div>
+                <div class="auth-feature"><i class="fas fa-leaf"></i><span>Farm-fresh produce</span></div>
+                <div class="auth-feature"><i class="fas fa-tag"></i><span>Exclusive member discounts</span></div>
+            </div>
+        </div>
+        <div class="auth-forms">
+            <div class="forms-container" id="formsContainer">
+                <div class="form" id="loginForm">
+                    <h2 class="form-title">Welcome Back</h2>
+                    <p class="form-subtitle">Log in to your account to continue</p>
+                    <form method="POST" action="{% url 'login' %}">{% csrf_token %}
+                        <div class="form-group"><label class="form-label" for="login-email">Email Address</label><input
+                                class="form-input" id="login-email" name="email" placeholder="your@email.com"
+                                required="" type="email" /></div>
+                        <div class="form-group"><label class="form-label" for="login-password">Password</label>
+                            <div class="password-field"><input class="form-input" id="login-password" name="password"
+                                    placeholder="Enter your password" required="" type="password" /><button
+                                    class="password-toggle" onclick="togglePassword('login-password')" type="button"><i
+                                        class="far fa-eye"></i></button></div>
+                        </div>
+                        <div class="form-group"><label class="form-label" for="login-role">Role</label><select
+                                class="form-select" id="login-role" name="role" required="">
+                                <option value="">Select your role</option>
+                                <option value="user">User</option>
+                                <option value="admin">Admin</option>
+                            </select></div>
+                        <div class="remember-forgot"><label class="remember-me"><input hidden type="checkbox"
+                                    name="remember" /></label><a class="forgot-password" href="#">Forgot
+                                Password?</a></div><button class="submit-btn" type="submit">Login</button>
+                    </form>
+                    
+                    <div class="toggle-form">Don't have an account?<button class="toggle-btn" onclick="toggleForm()"
+                            type="button">Register</button></div>
+                </div>
+                <div class="form form-signup-expanded" id="signupForm">
+                    <h2 class="form-title">Create Account</h2>
+                    <p class="form-subtitle">Join us for fresh groceries delivered to your door</p>
+                    <form action="{% url 'register' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}<div
+                            class="form-group"><label class="form-label" for="signup-name">Full Name</label><input
+                                class="form-input" id="signup-name" name="username" required=""
+                                type="text" /></div>
+                        <div class="form-group"><label class="form-label" for="signup-email">Email Address</label><input
+                                class="form-input" id="signup-email" name="email"
+                                required="" type="email" /></div>
+                        <div class="form-group"><label class="form-label" for="signup-phone">Phone Number</label><input
+                                class="form-input" id="signup-phone" name="phone_number" 
+                                type="tel" minlength="10" maxlength="10" /></div>
+                        <div class="form-group"><label class="form-label" for="signup-address">Address</label><textarea
+                                class="form-input" id="signup-address" name="address"
+                                placeholder="Enter your full address" rows="3"></textarea></div>
+                        <div class="form-group"><label class="form-label" for="signup-birth-date">Birth
+                                Date</label><input class="form-input" id="signup-birth-date" name="birth_date"
+                                type="date" /></div>
+                        <div class="form-group"><label class="form-label" for="signup-profile-image">Profile
+                                Image</label><input class="form-input" id="signup-profile-image" name="profile_image"
+                                type="file" accept="image/*" /></div>
+                        <div class="form-group"><label class="form-label" for="signup-password">Password</label>
+                            <div class="password-field"><input class="form-input" id="signup-password" name="password"
+                                    placeholder="Create a password" required="" type="password" /><button
+                                    class="password-toggle" onclick="togglePassword('signup-password')" type="button"><i
+                                        class="far fa-eye"></i></button></div>
+                        </div>
+                        <div class="form-group"><label class="form-label" for="signup-confirm-password">Confirm
+                                Password</label>
+                            <div class="password-field"><input class="form-input" id="signup-confirm-password"
+                                    name="cpassword" placeholder="Confirm your password" required=""
+                                    type="password" /><button class="password-toggle"
+                                    onclick="togglePassword('signup-confirm-password')" type="button"><i
+                                        class="far fa-eye"></i></button></div>
+                        </div>
+                        <div class="form-group"><label class="remember-me"><input type="checkbox" name="terms"
+                                    required="" />I agree to the <a href="#" style="color:var(--primary)">Terms &
+                                    Conditions</a></label></div><button class="submit-btn" type="submit">Create
+                            Account</button>
+                    </form>
+                    <div class="toggle-form">Already have an account?<button class="toggle-btn" onclick="toggleForm()"
+                            type="button">Login</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>function toggleForm() { const formsContainer = document.getElementById('formsContainer'); formsContainer.style.transform = formsContainer.style.transform === '' ? 'translateX(-50%)' : ''; } function togglePassword(inputId) { const passwordInput = document.getElementById(inputId); const icon = event.currentTarget.querySelector('i'); if (passwordInput.type === 'password') { passwordInput.type = 'text'; icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); } else { passwordInput.type = 'password'; icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); } }
+
+        // Notification handling functions - FIXED
+        function initializeNotifications() {
+            const notifications = document.querySelectorAll('.notification');
+            notifications.forEach(notification => {
+                // Auto-hide after 3 seconds
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            });
+        }
+
+        // Global function to close notification when clicking X
+        function closeNotification(btn) {
+            const notification = btn.closest('.notification');
+            if (notification) {
+                notification.classList.remove('show');
+            }
+        }
+    </script>
+</body>
+
+</html>
