@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #e4e7e3;
+        }
+
+        .form-container {
+            width: 1000px;
+            margin: 2rem auto;
+            padding: 2.5rem;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #1C2A2A;
+            margin-bottom: 1.5rem;
+            font-family: serif;
+        }
+
+        .form-subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #1C2A2A;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 0.875rem;
+            border: 1px solid #E2E8E8;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #F8FAFA;
+        }
+
+        /* Hover effects for input fields */
+        input[type="text"]:hover,
+        input[type="number"]:hover,
+        textarea:hover {
+            background-color: #FFF8E7;
+            border-color: #E8B87B;
+            box-shadow: 0 4px 12px rgba(232, 184, 123, 0.15);
+        }
+
+        .form-group:hover label {
+            color: #E8B87B;
+            transform: translateX(3px);
+        }
+
+        /* Focus effects */
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #1C2A2A;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(28, 42, 42, 0.1),
+                0 4px 12px rgba(28, 42, 42, 0.1);
+        }
+
+        /* Product Name field */
+        .form-group:has(input[name="name"]:hover) label {
+            color: #68D391;
+        }
+
+        input[name="name"]:hover {
+            background-color: #F0FFF4;
+            border-color: #68D391;
+            box-shadow: 0 4px 12px rgba(104, 211, 145, 0.15);
+        }
+
+        /* Price field */
+        .form-group:has(input[name="price"]:hover) label {
+            color: #FC8181;
+        }
+
+        input[name="price"]:hover {
+            background-color: #FFF5F5;
+            border-color: #FC8181;
+            box-shadow: 0 4px 12px rgba(252, 129, 129, 0.15);
+        }
+
+        /* Stock field */
+        .form-group:has(input[name="stock"]:hover) label {
+            color: #63B3ED;
+        }
+
+        input[name="stock"]:hover {
+            background-color: #EBF8FF;
+            border-color: #63B3ED;
+            box-shadow: 0 4px 12px rgba(99, 179, 237, 0.15);
+        }
+
+        /* Category field */
+        .form-group:has(input[name="category"]:hover) label {
+            color: #B794F4;
+        }
+
+        input[name="category"]:hover {
+            background-color: #FAF5FF;
+            border-color: #B794F4;
+            box-shadow: 0 4px 12px rgba(183, 148, 244, 0.15);
+        }
+
+        /* Description field */
+        .form-group:has(textarea:hover) label {
+            color: #F6E05E;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        textarea:hover {
+            background-color: #FFFFF0;
+            border-color: #F6E05E;
+            box-shadow: 0 4px 12px rgba(246, 224, 94, 0.15);
+        }
+
+        /* Image URL field */
+        .form-group:has(input[name="image_url"]:hover) label {
+            color: #E8B87B;
+        }
+
+        button {
+            background-color: #1C2A2A;
+            color: white;
+            padding: 0.875rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            background-color: #2A3F3F;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(28, 42, 42, 0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Add a subtle transition when moving from hover to focus state */
+        input:hover:focus,
+        textarea:hover:focus {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="section-header">
+        <h2 style="text-align: center;">Edit Products</h2>
+    </div>
+    <div class="form-container">
+        <p class="form-subtitle">Edit the details of your product below</p>
+
+        <form method="POST" action="{{ url_for('edit_product', product_id = product.id )}}">
+            <div class="form-group">
+                <label for="name">Product Name</label>
+                <input type="text" id="name" name="name" value="{{product.productName}}">
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" value="{{product.description}}"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="number" id="price" step="0.01" name="price"  value="{{product.price}}">
+            </div>
+
+            <div class="form-group">
+                <label for="stock">Stock</label>
+                <input type="number" id="stock" name="stock" value="{{product.quantity}}">
+            </div>
+
+            <div class="form-group">
+                <label for="category">Category</label>
+                <input type="text" id="category" name="category" value="{{product.category}}">
+            </div>
+
+            <div class="form-group">
+                <label for="image_url">Image URL</label>
+                <input type="text" id="image_url" name="image_url" value="{{product.image}}">
+            </div>
+
+            <button type="submit">Edit Product</button>
+        </form>
+    </div>
+</body>
+
+</html>

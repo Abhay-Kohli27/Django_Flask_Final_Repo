@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery Delivery UI</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='../static/styles/bootstrap.min.css' ) }}">
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='../static/styles/base.css' ) }}"> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: serif;
+        }
+
+        body {
+            background-color: #e8ebe7;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: normal;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-size: 1rem;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        /* Home */
+        .nav-links a:nth-child(1):hover {
+            color: #E63946;
+            /* Reddish */
+        }
+
+        .nav-links a:nth-child(1)::after {
+            background-color: #E63946;
+        }
+
+        /* Donate */
+        .nav-links a:nth-child(2):hover {
+            color: #F4A261;
+            /* Orange */
+        }
+
+        .nav-links a:nth-child(2)::after {
+            background-color: #F4A261;
+        }
+
+        /* Blog */
+        .nav-links a:nth-child(3):hover {
+            color: #2A9D8F;
+            /* Teal */
+        }
+
+        .nav-links a:nth-child(3)::after {
+            background-color: #2A9D8F;
+        }
+
+        /* Support */
+        .nav-links a:nth-child(4):hover {
+            color: #457B9D;
+            /* Blue */
+        }
+
+        .nav-links a:nth-child(4)::after {
+            background-color: #457B9D;
+        }
+
+        /* About Us */
+        .nav-links a:nth-child(5):hover {
+            color: #8A3FFC;
+            /* Purple */
+        }
+
+        .nav-links a:nth-child(5)::after {
+            background-color: #8A3FFC;
+        }
+
+        /* Underline effect */
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 100%;
+            height: 2px;
+            transform: scaleX(0);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+        }
+
+
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .social-icon i {
+            transition: color 0.3s ease;
+        }
+
+        /* Hover Effects - Different Colors for Each Top Icon */
+        .social-icons a:nth-child(1) .social-icon:hover {
+            background: #e91e63;
+            /* Pink - Account */
+        }
+
+        .social-icons a:nth-child(2) .social-icon:hover {
+            background: #ff9800;
+            /* Orange - Shopping Basket */
+        }
+
+        .social-icons a:nth-child(3) .social-icon:hover {
+            background: #4caf50;
+            /* Green - Location */
+        }
+
+        .social-icon:hover i {
+            color: white;
+            /* Change icon color to white */
+        }
+
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+            position: relative;
+            padding: 4rem;
+            background: url('../static/images/hero111.webp') center/cover no-repeat;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1.5rem;
+            background-color: white;
+            border-radius: 50px;
+            padding-left: 30px;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: normal;
+            line-height: 1.2;
+        }
+
+        .hero-description {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .button {
+            padding: 0.8rem 2rem;
+            border-radius: 100px;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        /* Order Now Button */
+        .button-primary {
+            background: #2c3532;
+            color: white;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .button-primary:hover {
+            background: #E63946;
+            /* Reddish */
+            transform: scale(1.05);
+        }
+
+        /* Sign In Button */
+        .button-secondary {
+            background: #f0f0f0;
+            color: #333;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .button-secondary:hover {
+            background: #2A9D8F;
+            /* Teal */
+            color: white;
+            transform: scale(1.05);
+        }
+
+
+        .feature-icons {
+            display: flex;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .icon-circle {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .icon-circle i {
+            transition: color 0.3s ease;
+        }
+
+        /* Hover Effects - Different Colors for Each Icon */
+        .feature-icon:nth-child(1) .icon-circle:hover {
+            background: #ff9800;
+            /* Orange */
+        }
+
+        .feature-icon:nth-child(2) .icon-circle:hover {
+            background: #4caf50;
+            /* Green */
+        }
+
+        .feature-icon:nth-child(3) .icon-circle:hover {
+            background: #2196f3;
+            /* Blue */
+        }
+
+        .icon-circle:hover i {
+            color: white;
+            /* Change icon color to white */
+        }
+
+        .preview-image {
+            width: 100%;
+            height: 470px;
+            /* background: #f0f0f0; */
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .cards-section {
+            margin-top: 4rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            font-weight: normal;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: #f0f0f0;
+            border-radius: 16px;
+            padding: 1rem;
+            aspect-ratio: 1;
+        }
+
+        .floating-elements {
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .floating-elements img {
+            position: absolute;
+        }
+
+        .grocery-delivery-you-can-count-on {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .grocery-delivery-you-can-count-on h3 {
+            font-size: 2.5rem;
+            /* font-family: 'EB Garamond', serif; */
+            /* font-weight: bold; */
+            color: #2c3532;
+            margin-bottom: 3rem;
+        }
+
+        .cards {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .card {
+            padding: 0;
+            width: 18rem;
+            height: 390px;
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-bottom: 4px solid #2c3532;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card h4 {
+            font-size: 1.3rem;
+            color: #2c3532;
+            font-family: 'EB Garamond', serif;
+            margin-bottom: 0.5rem;
+        }
+
+        .card p {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .icon-anchor {
+            text-decoration: none;
+            color: black;
+        }
+
+        .review-card {
+            height: 300px;
+            /* border: 2px solid black; */
+            /* box-shadow: black 4px 4px 2px !important; */
+            transition: transform 0.3s ease;
+            border-radius: 10px !important;
+            /* background-color: #d8c6b0 !important; */
+        }
+
+        .review-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            /* filter: invert(-70%); */
+            /* background-color: white; */
+            color: black;
+        }
+
+        .carousel-item {
+            /* height: 420px; */
+            box-shadow: none;
+        }
+
+        .accordion-button:not(.collapsed) {
+            /* background-color: #744c2e !important; */
+            color: white;
+        }
+
+        .accordion-body {
+            background-color: #ffffff;
+            border-radius: 0 0 0.375rem 0.375rem;
+            border: 2px solid black;
+        }
+
+        .accordion-button::after {
+            filter: brightness(0) invert(1);
+        }
+
+        .navlink {
+            font-size: larger;
+            font-weight: 400;
+        }
+
+        .cards .card {
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .cards .card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Different pastel shadow colors for each card */
+        .cards .card:nth-child(1):hover {
+            box-shadow: 0px 8px 15px rgba(255, 182, 193, 0.7),
+                0px 12px 25px rgba(255, 160, 122, 0.7);
+        }
+
+        .cards .card:nth-child(2):hover {
+            box-shadow: 0px 8px 15px rgba(173, 216, 230, 0.7),
+                0px 12px 25px rgba(135, 206, 250, 0.7);
+        }
+
+        .cards .card:nth-child(3):hover {
+            box-shadow: 0px 8px 15px rgba(221, 160, 221, 0.7),
+                0px 12px 25px rgba(216, 191, 216, 0.7);
+        }
+
+        .cards .card:nth-child(4):hover {
+            box-shadow: 0px 8px 15px rgba(152, 251, 152, 0.7),
+                0px 12px 25px rgba(144, 238, 144, 0.7);
+        }
+
+        .clickable-anchor::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            /* background: rgba(255, 255, 255, 0.5); */
+            opacity: 0;
+            /* border-radius: px; */
+            transform: translate(-50%, -50%);
+
+        }
+
+        .clickable-anchor:active::after {
+            animation: ripple 0.4s ease-out;
+        }
+
+        @keyframes ripple {
+            from {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            to {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(20);
+            }
+        }
+
+        .clickable-anchor {
+            transition: transform 0.1s, box-shadow 0.1s, background-color 0.2s;
+        }
+
+        .accordion-button {
+            transition: all 0.3s ease;
+            color: black !important;
+            border-radius: 5px;
+        }
+
+        /* Unique background colors for each FAQ */
+        .accordion-item:nth-child(1) .accordion-button:hover,
+        .accordion-item:nth-child(1) .accordion-button:not(.collapsed) {
+            background-color: rgba(217, 83, 79, 0.2);
+
+        }
+
+        .accordion-item:nth-child(2) .accordion-button:hover,
+        .accordion-item:nth-child(2) .accordion-button:not(.collapsed) {
+            background-color: rgba(2, 117, 216, 0.2);
+
+        }
+
+        .accordion-item:nth-child(3) .accordion-button:hover,
+        .accordion-item:nth-child(3) .accordion-button:not(.collapsed) {
+            background-color: rgba(92, 184, 92, 0.2);
+
+        }
+
+        .accordion-item:nth-child(4) .accordion-button:hover,
+        .accordion-item:nth-child(4) .accordion-button:not(.collapsed) {
+            background-color: rgba(240, 173, 78, 0.2);
+
+        }
+
+        .footer-link {
+            text-decoration: none;
+            color: #3A3A3A;
+            transition: color 0.3s ease-in-out;
+            font-weight: 500;
+        }
+
+        .footer-link:hover {
+            color: #A67C52;
+        }
+
+        details summary {
+            font-weight: bold;
+            cursor: pointer;
+            color: #3A3A3A;
+            transition: color 0.3s ease-in-out;
+        }
+
+        details summary:hover {
+            color: #A67C52;
+        }
+
+        .social-icon {
+            color: #3A3A3A;
+            margin-right: 10px;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .social-icon:hover {
+            color: #A67C52;
+        }
+    </style>
+
+    <style>
+        .cart-icon {
+            position: relative;
+            font-size: 24px;
+            text-decoration: none;
+            color: black;
+        }
+
+        #cart-count {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background: red;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            line-height: 20px;
+        }
+    </style>
+
+    {% block style_block %}
+
+    {% endblock %}
+</head>
+
+<body>
+
+
+
+    <div class="container">
+        {% for category,message in get_flashed_messages(with_categories=True) %}
+        <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+            {{message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        <nav>
+            <h1 class="logo">LettuceEat</h1>
+            <div class="nav-links">
+
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('logout' ) }}"><span class="navlink">LogOut</span></a>
+                {% endif %}
+
+                {% block home_remove_block %}
+                <a href="{{ url_for('home' ) }}"><span class="navlink">Home</span></a>
+                {% endblock %}
+
+                <a href="#"><span class="navlink">Contact Us</span></a>
+                <!-- <a href="#"><span class="navlink">Blog</span></a> -->
+                <!-- <a href="#"><span class="navlink">Support</span></a> -->
+                <a href="#"><span class="navlink">About Us</span></a>
+
+                {% block admin_dashboard_block %}
+
+                {% endblock %}
+            </div>
+
+            {% block nav_search_block %}
+
+            {% endblock %}
+
+            <div class="social-icons">
+                <a href="{{ url_for('user_profile' ) }}" class="icon-anchor">
+                    <div class="social-icon"><i class="fa-regular fa-user fa-2x"></i></div>
+                </a>
+                <!-- <a href="{{ url_for('view_cart' ) }}" class="icon-anchor">
+                    <div class="social-icon"></div>
+                   <pre><strong style="font-size: x-large;">    {{ current_user.cart_items | sum(attribute='quantity') }}  </strong></pre>
+                </a> -->
+
+                <a href="{{ url_for('view_cart') }}" class="cart-icon icon-anchor">
+                    🛒 <span class="social-icon" id="cart-count">{{ current_user.cart_items | sum(attribute='quantity') }}</span>
+                </a>
+
+                {% block location_block %}
+                <a href="" class="icon-anchor">
+                    <div class="social-icon"><i class="fa-solid fa-location-crosshairs fa-2x"></i></div>
+                </a>
+                {% endblock %}
+            </div>
+        </nav>
+
+        <div class="bottomNav">
+            {% block bottom_nav_block %}
+
+            {% endblock %}
+        </div>
+
+        {% block search_result_block %}
+            
+        {% endblock %}
+
+        {% block main_block1 %}
+        <div class="hero">
+            <div class="hero-content">
+                <h2 class="hero-title">Harvested with Care, Delivered with Love</h2>
+                <p class="hero-description">
+                    Sustainable, fresh, and handpicked for a healthier you.
+                </p>
+                <div class="button-group">
+                    <a href="{{ url_for('login' ) }}" class="button button-primary" style="text-decoration: none;">Log
+                        In</a>
+                    <a href="{{ url_for('register' ) }}" class="button button-secondary"
+                        style="text-decoration: none;">Register</a>
+                </div>
+                <div class="feature-icons">
+                    <div class="feature-icon">
+                        <a href="{{ url_for('apply_store' ) }}" class="icon-anchor">
+                            <div class="icon-circle"><i class="fa-solid fa-briefcase fa-2x"></i></div>
+                        </a>
+                        <span>Open a Store</span>
+                    </div>
+                    <div class="feature-icon">
+                        <a href="{{ url_for('home' ) }}" class="icon-anchor">
+                            <div class="icon-circle"><i class="fas fa-shopping-bag fa-2x"></i></div>
+                        </a>
+                        <span>Order</span>
+                    </div>
+                    <div class="feature-icon">
+                        <div class="icon-circle"><i class="fas fa-shipping-fast fa-2x"></i></div>
+                        <span>Speedy Delivery</span>
+                    </div>
+                </div>
+            </div>
+            <div class="preview-image">
+                <!-- <img src="static/images/heroimage11.jpg" alt="" class="preview-image" style="height: 100%;width: 100%;"> -->
+            </div>
+        </div>
+
+
+
+        <div class="grocery-delivery-you-can-count-on" style="margin-top: -100px;">
+            <h3 class="text-center py-5" style="font-size: xx-large;font-family: eb;">Grocery Delivery you can count on
+            </h3>
+
+            <div class="cards">
+                <div class="card clickable-anchor" style="width: 18rem;">
+                    <img src="../static/images/choose_what_you_want.webp" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text">
+                        <h4><strong>Choose what you want</strong></h4>
+                        <p>
+                            Select items from your favorite grocery stores at the site or in the app.
+                        </p>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card clickable-anchor" style="width: 18rem;">
+                    <img src="../static/images/rel-time-tracking.webp" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text">
+                        <h4><strong>See real-time updates</strong></h4>
+                        <p>
+                            Personal shoppers pick items with care. Chat as they shop and manage your order.
+                        </p>
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="card clickable-anchor" style="width: 18rem;">
+                    <img src="../static/images/get-same-day.webp" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text">
+                        <h4><strong>Get your items same-day</strong></h4>
+                        <p>
+                            Pick a convenient time for you. Enjoy our 100% quality guarantee on every order.
+                        </p>
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="card clickable-anchor" style="width: 18rem;">
+                    <img src="../static/images/organic.webp" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text">
+                        <h4><strong>Authenticity Assured</strong></h4>
+                        <p>
+                            Ensuring the freshest, chemical-free produce straight from trusted farms to your doorstep.
+                        </p>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Offers & Deals Carousel Section -->
+        <div class="adver-and-review" style="display: flex; gap: 30px;align-items: center;">
+            <div class="offers-carousel mt-5" 
+                style=" display: flex; justify-content: center;flex-direction: column;align-items: center;">
+                <h3 class="section-title" style="text-align:center; margin-bottom: 2rem;">Offers & Deals</h3>
+                <div id="offersCarousel" class="carousel slide" data-bs-ride="carousel"
+                    style="height: 500px;width: 900px !important;">
+                    <!-- Indicators -->
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#offersCarousel" data-bs-slide-to="0" class="active"
+                            aria-current="true" aria-label="Offer 1"></button>
+                        <button type="button" data-bs-target="#offersCarousel" data-bs-slide-to="1"
+                            aria-label="Offer 2"></button>
+                        <button type="button" data-bs-target="#offersCarousel" data-bs-slide-to="2"
+                            aria-label="Offer 3"></button>
+                    </div>
+
+                    <!-- Carousel Items -->
+                    <div class="carousel-inner" style="height: 500px;width: 900px !important; border-radius: 50px;">
+                        <div class="carousel-item active">
+                            <img src="../static/images/seasonaloffer.webp" class="d-block w-100" alt="Offer 1">
+                            <div class="carousel-caption d-none d-md-block">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="../static/images/newbanneronoffer.webp" class="d-block w-100" alt="Offer 2">
+                            <div class="carousel-caption d-none d-md-block">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="../static/images/dairyoffer.webp" class="d-block w-100" alt="Offer 3">
+                            <div class="carousel-caption d-none d-md-block">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Controls -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#offersCarousel"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#offersCarousel"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+
+
+
+
+
+
+            <section class="py-3" style="margin-top: 100px;">
+                <div class="container" style="width: 350px;">
+                    <h2 class="text-center mb-5" style=" font-family: eb; font-size: xx-large; font-weight: 900;">
+                        What Our Customers Say</h2>
+
+                    <div id="reviewCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+
+                            <div class="carousel-item active">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-8 text-center">
+                                        <div class="review-card p-4 rounded shadow-sm clickable-anchor "
+                                            style="background-color: #fff;">
+                                            <div class="rating mb-3" style="color: #ffd700;">
+                                                ★★★★★
+                                            </div>
+                                            <p class="lead text-muted">"The freshest vegetables I've ever received!
+                                                Doorstep
+                                                delivery makes my life so much easier."</p>
+                                            <h5 class="mt-4">- Sarah Johnson</h5>
+                                            <small class="text-muted">Regular Customer</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="carousel-item">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-8 text-center">
+                                        <div class="review-card p-4 rounded shadow-sm clickable-anchor"
+                                            style="background-color: #fff;">
+                                            <div class="rating mb-3" style="color: #ffd700;">
+                                                ★★★★★
+                                            </div>
+                                            <p class="lead text-muted">"Amazing quality organic products. Their delivery
+                                                is
+                                                always
+                                                on time!"</p>
+                                            <h5 class="mt-4">- Michael Chen</h5>
+                                            <small class="text-muted">Health Enthusiast</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-8 text-center">
+                                        <div class="review-card p-4 rounded shadow-sm clickable-anchor"
+                                            style="background-color: #fff;">
+                                            <div class="rating mb-3" style="color: #ffd700;">
+                                                ★★★★☆
+                                            </div>
+                                            <p class="lead text-muted">"Love the convenience and quality. Would give 5
+                                                stars
+                                                if they
+                                                had more international veggies."</p>
+                                            <h5 class="mt-4">- Priya Sharma</h5>
+                                            <small class="text-muted">Food Blogger</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="carousel-control-prev" type="button" data-bs-target="#reviewCarousel"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#reviewCarousel"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <section class="py-3" style="margin-top: 100px;">
+            <div class="container" style="background-color: #f1f0f1;">
+                <h2 class="text-center mb-5" style="font-size: xx-large;">Frequently
+                    Asked
+                    Questions</h2>
+
+                <div class="accordion" id="faqAccordion">
+
+                    <div class="accordion-item mb-3 border-0 rounded shadow-sm ">
+                        <h2 class="accordion-header clickable-anchor">
+                            <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faq1">
+                                How do I place an order?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                <pre>
+                                Step 1: Visit the Website
+        
+                                 Step 2: Add Your Delivery Address
+                                    
+                                             This step ensures we deliver to the correct address!
+                                    
+                                 Step 3: Search for Groceries
+                                    
+                                 Step 4: Add Items to Basket
+                                    
+                                 Step 5: Apply Discounts & Coupons
+                                
+                                 Step 6: Review Your Cart & Proceed to Checkout
+                                
+                                 Step 7: Choose Payment Method
+                                
+                                 Step 8: Confirm Order & Track Delivery
+                                    
+                                 Step 9: Receive Your Order & Enjoy!
+                                </pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item mb-3 border-0 rounded shadow-sm">
+                        <h2 class="accordion-header clickable-anchor">
+                            <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faq2">
+                                What are your delivery hours?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Our delivery service is available throughout the day to ensure you get your groceries
+                                whenever
+                                you need them. We offer same-day delivery for ultimate convenience, and you can also
+                                schedule a
+                                preferred time slot that fits your routine perfectly. Whether you need your groceries
+                                right away
+                                or at a specific time, we’ve got you covered!
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="accordion-item mb-3 border-0 rounded shadow-sm">
+                        <h2 class="accordion-header clickable-anchor">
+                            <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faq3">
+                                Are your products organic certified?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes! Quality and authenticity are our top priorities. Many of our products are certified
+                                organic, sourced from trusted farms that follow strict organic farming practices. Look
+                                for the
+                                organic certification label on product descriptions to ensure you're getting 100%
+                                genuine
+                                organic produce.
+
+                                If you have any specific certification concerns, feel free to reach out—we’re happy to
+                                help!
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item mb-3 border-0 rounded shadow-sm">
+                        <h2 class="accordion-header clickable-anchor">
+                            <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faq4">
+                                Can I modify my order after placement?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes, you can modify your order after placement, but only within a limited time frame. If
+                                your
+                                order is still being processed, you can add or remove items or adjust the delivery time
+                                through
+                                the "My Orders" section. However, once the order is out for delivery, modifications may
+                                no
+                                longer be possible. For urgent changes, our customer support team is always ready to
+                                assist you.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+        {% endblock %}
+        <footer
+            style="background-color: #F5ECE3; padding: 50px 20px; margin-top: 100px; color: #3A3A3A; border-radius: 50px;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h5 class="mb-3">All Categories</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="footer-link">Fruits & Vegetables</a></li>
+                            <li><a href="#" class="footer-link">Dairy & Bakery</a></li>
+                            <li><a href="#" class="footer-link">Meat & Seafood</a></li>
+                            <li><a href="#" class="footer-link">Beverages</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Customer Account -->
+                    <div class="col-md-3">
+                        <h5 class="mb-3">Customer Account</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="footer-link">Sign In</a></li>
+                            <li><a href="#" class="footer-link">Register</a></li>
+                            <li><a href="#" class="footer-link">Order History</a></li>
+                            <li><a href="#" class="footer-link">Wishlist</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Help & Support -->
+                    <div class="col-md-3">
+                        <h5 class="mb-3">Help & Support</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="footer-link">FAQs</a></li>
+                            <li><a href="#" class="footer-link">Return Policy</a></li>
+                            <li><a href="#" class="footer-link">Shipping Info</a></li>
+                            <li><a href="#" class="footer-link">Terms & Conditions</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Contact Us -->
+                    <div class="col-md-3">
+                        <h5 class="mb-3">Contact Us</h5>
+                        <ul class="list-unstyled">
+                            <li>
+                                <details>
+                                    <summary style="font-weight: lighter;">Abhay Kohli</summary>
+                                    <p><i class="fa-solid fa-phone"></i> 1234567890</p>
+                                    <p><i class="fa-solid fa-envelope"></i> <a
+                                            href="mailto:abhay3092.beai24@chitkara.edu.in"
+                                            class="footer-link">abhay3092.beai24@chitkara.edu.in</a></p>
+                                    <p><i class="fa-solid fa-map-marker-alt"></i> Chitkara University, Rajpura</p>
+                                </details>
+                            </li>
+                            <li>
+                                <details>
+                                    <summary style="font-weight: lighter;">Aahna</summary>
+                                    <p><i class="fa-solid fa-phone"></i> 1234567890</p>
+                                    <p><i class="fa-solid fa-envelope"></i> <a
+                                            href="mailto:aahna3083.beai24@chitkara.edu.in"
+                                            class="footer-link">aahna3083.beai24@chitkara.edu.in</a></p>
+                                    <p><i class="fa-solid fa-map-marker-alt"></i> Chitkara University, Rajpura</p>
+                                </details>
+                            </li>
+                            <li>
+                                <details>
+                                    <summary style="font-weight: lighter;">Bhavesh Thakur</summary>
+                                    <p><i class="fa-solid fa-phone"></i> 1234567890</p>
+                                    <p><i class="fa-solid fa-envelope"></i> <a
+                                            href="mailto:bhavesh3142.beai24@chitkara.edu.in"
+                                            class="footer-link">bhavesh3142.beai24@chitkara.edu.in</a></p>
+                                    <p><i class="fa-solid fa-map-marker-alt"></i> Chitkara University, Rajpura</p>
+                                </details>
+                            </li>
+                            <li>
+                                <details>
+                                    <summary style="font-weight: lighter;">Arjun Sachdeva</summary>
+                                    <p><i class="fa-solid fa-phone"></i> 1234567890</p>
+                                    <p><i class="fa-solid fa-envelope"></i> <a
+                                            href="mailto:arjun3125.beai24@chitkara.edu.in"
+                                            class="footer-link">arjun3125.beai24@chitkara.edu.in</a></p>
+                                    <p><i class="fa-solid fa-map-marker-alt"></i> Chitkara University, Rajpura</p>
+                                </details>
+                            </li>
+                        </ul>
+
+                        <!-- Social Media Links -->
+                        <div class="mt-3">
+                            <a href="https://www.instagram.com/bhavesh_thakur06/" target="_blank"
+                                style="text-decoration: none;color: black;">
+                                <i class="fa-brands fa-instagram fa-2x"></i>
+                            </a>
+                            <a href="https://www.youtube.com/@SamayRainaOfficial" target="_blank"
+                                style="text-decoration: none;color: black;">
+                                <i class="fa-brands fa-youtube fa-2x"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Copyright Section -->
+                <div class="text-center mt-4">
+                    <p class="mb-0">&copy; 2025 Your Company Name. All Rights Reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="https://kit.fontawesome.com/a31575afef.js" crossorigin="anonymous"></script>
+    <script src="../static/scripts/base.js"></script>
+    <script src="../static/scripts/bootstrap.min.js"></script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const myCarousel = new bootstrap.Carousel(document.getElementById('reviewCarousel'), {
+                interval: 5000,
+                wrap: true
+            });
+        });
+
+
+        function updateCartCount(count) {
+            document.getElementById("cart-count").textContent = count;
+        }
+
+
+    </script>
+
+    {% block script_block %}
+
+    {% endblock %}
+</body>
+
+</html>

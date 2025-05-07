@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Fresh Grocery Delivery</title>
+    <link rel="stylesheet" href="../static/styles/bootstrap.min.css">
+    <style>
+        :root {
+            --primary-color: #2E7D32;
+            --primary-light: #4CAF50;
+            --primary-lighter: #81C784;
+            --primary-dark: #1B5E20;
+            --primary-fade: rgba(46, 125, 50, 0.1);
+            --success: #43A047;
+            --white: #ffffff;
+            --gray-50: #f8faf8;
+            --gray-100: #f1f8f1;
+            --gray-200: #e8f5e8;
+            --gray-300: #c8e6c9;
+            --gray-600: #4a5568;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes leafFall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            /* background: 
+                linear-gradient(120deg, rgba(46, 125, 50, 0.1), rgba(129, 199, 132, 0.2)),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2381C784' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); */
+            animation: gradient 15s ease infinite;
+            background-size: 400% 400%;
+            padding: 20px;
+        }
+
+        /* Add falling leaves animation */
+        .leaf {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            animation: leafFall 15s linear infinite;
+        }
+
+        .signup-container {
+            /* background: var(--white); */
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(46, 125, 50, 0.15);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            animation: slideIn 0.6s ease-out;
+        }
+
+        .signup-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            /* background: linear-gradient(90deg, var(--primary-lighter), var(--primary-color), var(--primary-lighter)); */
+            animation: gradient 3s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .header h1 {
+            /* color: var(--primary-dark); */
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .header h1::after {
+            content: '🌱';
+            position: absolute;
+            top: -10px;
+            right: -30px;
+            font-size: 1.5rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .form-group:hover {
+            transform: translateX(5px);
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--gray-50);
+        }
+
+        input:focus {
+            outline: none;
+            /* border-color: ; */
+            box-shadow: 0 0 0 4px var(--primary-fade);
+            transform: translateY(-2px);
+            background: var(--white);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            /* color: var(--primary-dark); */
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .location-options {
+            /* background: linear-gradient(135deg, var(--gray-100), var(--gray-200)); */
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            /* border: 1px solid var(--gray-300); */
+            transition: all 0.3s ease;
+        }
+
+        .location-options:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(46, 125, 50, 0.1);
+        }
+
+        .location-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .location-btn {
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* .live-location-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+        } */
+
+        .manual-location-btn {
+            background: var(--white);
+            /* color: var(--primary-color);
+            border: 2px solid var(--primary-color); */
+        }
+
+        .location-btn:hover {
+            transform: translateY(-2px);
+            /* box-shadow: 0 5px 15px rgba(46, 125, 50, 0.2); */
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            /* background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); */
+            /* color: var(--white); */
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(46, 125, 50, 0.2);
+        }
+
+        .submit-btn::after {
+            content: '🌿';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover::after {
+            opacity: 1;
+            right: 30px;
+        }
+
+        .name-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 480px) {
+            .name-group {
+                grid-template-columns: 1fr;
+            }
+
+            .location-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Add sparkle effect */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: var(--primary-lighter);
+            animation: sparkle 1.5s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes sparkle {
+
+            0%,
+            100% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Success message animation */
+        .success-message {
+            padding: 1rem;
+            background: var(--success);
+            color: white;
+            border-radius: 10px;
+            margin-top: 1rem;
+            transform: translateY(-10px);
+            opacity: 0;
+            animation: slideDown 0.3s ease forwards;
+        }
+
+        @keyframes slideDown {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+
+
+
+    <!-- Add falling leaves -->
+    <div class="leaf" style="left: 10%; animation-delay: 0s;">🍃</div>
+    <div class="leaf" style="left: 30%; animation-delay: 2s;">🌿</div>
+    <div class="leaf" style="left: 50%; animation-delay: 4s;">🍃</div>
+    <div class="leaf" style="left: 70%; animation-delay: 6s;">🌿</div>
+    <div class="leaf" style="left: 90%; animation-delay: 8s;">🍃</div>
+
+    <div class="signup-container">
+
+        {% for category,message in get_flashed_messages(with_categories=True) %}
+        <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+            {{message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+
+
+        <!-- Rest of the HTML remains the same -->
+        <div class="header">
+            <h1>Create Account</h1>
+            <p>Join us for fresh grocery delivery</p>
+        </div>
+
+        <form action="{{ url_for('register') }}" method="POST" id="registerForm">
+            <div class="name-group">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" name="firstName" placeholder="" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" placeholder="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="" required>
+
+            </div>
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="" required>
+            </div>
+
+            <div class="location-options">
+                <label>Delivery Location</label>
+                <div class="location-buttons">
+                    <button type="button" class="location-btn live-location-btn" onclick="getLocation()">
+                        📍 Use Current Location
+                    </button>
+                    <button type="button" class="location-btn manual-location-btn" onclick="toggleManualAddress()">
+                        ✏️ Enter Manually
+                    </button>
+                </div>
+                <div id="locationStatus"></div>
+                <input type="hidden" id="latitude" name="latitude">
+                <input type="hidden" id="longitude" name="longitude">
+
+            </div>
+
+            <div class="form-group" id="manualAddressField">
+                <label for="address">Delivery Address</label>
+                <input type="text" id="address" name="address" placeholder="123 Main St, City, State">
+            </div>
+
+            <input type="submit" class="submit-btn" value="Create Account">
+        </form>
+
+        <div class="login-link">
+            Already have an account? <a href="{{ url_for('login' ) }}">Log in</a>
+        </div>
+    </div>
+
+
+    <script src="../static/scripts/bootstrap.min.js"></script>
+    <script>
+        // Previous JavaScript plus new animations
+        // function createSparkle(event) {
+        //     const sparkle = document.createElement('div');
+        //     sparkle.className = 'sparkle';
+        //     sparkle.style.left = event.pageX + 'px';
+        //     sparkle.style.top = event.pageY + 'px';
+        //     document.body.appendChild(sparkle);
+        //     setTimeout(() => sparkle.remove(), 1500);
+        // }
+
+        // document.addEventListener('mousemove', createSparkle);
+
+        function getLocation() {
+            const statusDiv = document.getElementById('locationStatus');
+
+            if (navigator.geolocation) {
+                statusDiv.style.display = 'block';
+                statusDiv.textContent = '📍 Getting your location...';
+
+                navigator.geolocation.getCurrentPosition(
+                    function (position) {
+                        // Store coordinates in hidden inputs
+                        document.getElementById('latitude').value = position.coords.latitude;
+                        document.getElementById('longitude').value = position.coords.longitude;
+
+                        // Update UI
+                        statusDiv.className = 'success-message';
+                        statusDiv.textContent = `✅ Location captured!`;
+
+                        document.getElementById('manualAddressField').style.display = 'none';
+                    },
+                    function (error) {
+                        statusDiv.className = 'success-message';
+                        statusDiv.textContent = '❌ Error getting location. Please enter manually.';
+                        document.getElementById('manualAddressField').style.display = 'block';
+                    }
+                );
+            } else {
+                statusDiv.className = 'success-message';
+                statusDiv.textContent = '❌ Geolocation is not supported by your browser';
+            }
+        }
+
+
+        function toggleManualAddress() {
+            const manualField = document.getElementById('manualAddressField');
+            const statusDiv = document.getElementById('locationStatus');
+            manualField.style.display = 'block';
+            statusDiv.style.display = 'none';
+        }
+
+
+        function validatePassword(password) {
+            const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            return strongPasswordRegex.test(password);
+        }
+
+        document.getElementById("registerForm").addEventListener("submit", function (event) {
+            const password = document.getElementById("password").value;
+            if (!validatePassword(password)) {
+                event.preventDefault();
+                alert("Password must be at least 8 characters long and include uppercase, lowercase, a number, and a special character.");
+            }
+        });
+
+    </script>
+</body>
+
+</html>

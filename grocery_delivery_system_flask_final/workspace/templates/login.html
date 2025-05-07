@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Fresh Grocery Delivery</title>
+    <link rel="stylesheet" href="../static/styles/bootstrap.min.css">
+    <style>
+        :root {
+            --primary-color: rgb(234, 161, 97);
+            --primary-dark: rgb(201, 138, 83);
+            --secondary-color: rgb(97, 161, 234);
+            --secondary-dark: rgb(83, 138, 201);
+            --accent-color: rgb(161, 97, 234);
+            --accent-dark: rgb(138, 83, 201);
+            --white: #ffffff;
+            --black: #000000;
+            --gray-50: #f8f8f8;
+            --gray-100: #e0e0e0;
+            --gray-300: #b0b0b0;
+            --text-dark: #2d2d2d;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--gray-50);
+            padding: 20px;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+        }
+
+        body:hover {
+            filter: grayscale(0%);
+        }
+
+        .signup-container {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
+            padding: 3.5rem;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .header h1 {
+            color: var(--black);
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .header h1:hover {
+            color: var(--primary-dark);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .form-group:hover {
+            transform: translateX(5px);
+            color: var(--secondary-dark);
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: var(--gray-100);
+            transition: all 0.3s ease;
+        }
+
+        input:hover,
+        select:hover {
+            border-color: var(--secondary-color);
+            background-color: cornsilk;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(234, 161, 97, 0.2);
+            background: var(--white);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--black);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        label:hover {
+            color: var(--accent-color);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--black);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: var(--primary-color);
+            color: var(--black);
+            transform: translateY(-2px);
+        }
+
+        .login-link {
+            margin-top: 1.5rem;
+            text-align: center;
+            color: var(--black);
+        }
+
+        .login-link a {
+            color: var(--gray-300);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .login-link a:hover {
+            color: var(--secondary-dark);
+        }
+
+        .name-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 480px) {
+            .name-group {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="signup-container">
+
+        {% for category,messages in get_flashed_messages(with_categories=True) %}
+
+
+        <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+            {{messages}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        {% endfor %}
+
+
+        <div class="header">
+            <h1>Log In To Your Account</h1>
+            <p>Join us for fresh grocery delivery</p>
+        </div>
+
+        <form action="{{ url_for('login' ) }}" method="POST">
+            <div class="name-group">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" name="firstName"  required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" name="lastName">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email"  required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password"  required>
+            </div>
+
+            <div class="form-group">
+                <label for="role">Select Role:</label>
+                <select name="role" id="role" required>
+                    <option value="">Choose Role</option>
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+
+            <button type="submit" class="submit-btn">Login</button>
+        </form>
+
+        <div class="login-link">
+            Don't have an account? <a href="{{ url_for('register' ) }}">Register</a>
+        </div>
+    </div>
+
+    <script src="../static/scripts/bootstrap.min.js"></script>
+</body>
+
+</html>

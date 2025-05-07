@@ -1,0 +1,148 @@
+<style>
+    .business-form-container {
+        background: linear-gradient(to bottom right, #f5f5f5, #e8e8e8);
+        padding: 40px;
+        min-height: 100vh;
+        font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .business-form-card {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 40px;
+        border-radius: 24px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .business-title {
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 40px;
+        color: #1a1a1a;
+        font-weight: 600;
+    }
+
+    .business-form {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .form-group label {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #1a1a1a;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        padding: 14px;
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background-color: #f8f8f8;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #1a1a1a;
+        background-color: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-group textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    .submit-button {
+        background-color: #1a1a1a;
+        color: white;
+        padding: 16px 32px;
+        border: none;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+    }
+
+    .submit-button:hover {
+        background-color: #333;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .business-subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 32px;
+        font-size: 1.1rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .business-form-container {
+            padding: 20px;
+        }
+
+        .business-form-card {
+            margin: 0;
+            padding: 24px;
+        }
+
+        .business-title {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+<div class="business-form-container">
+    <div class="business-form-card">
+        <h1 class="business-title">Join LettuceEat</h1>
+        <p class="business-subtitle">Sustainable, fresh, and handpicked for a healthier community.</p>
+
+        <form action="{{ url_for('apply_store' ) }}" method="POST" class="business-form">
+            <div class="form-group">
+                <label for="store_name">Store Name</label>
+                <input type="text" id="store_name" name="store_name" required placeholder="Enter your store name">
+            </div>
+
+            <div class="form-group">
+                <label for="category">Category</label>
+                <input type="text" id="category" name="category" required placeholder="Store category">
+            </div>
+
+            <div class="form-group">
+                <label for="owner_name">Owner Name</label>
+                <input type="text" id="owner_name" name="owner_name" required placeholder="Full name of the owner">
+            </div>
+
+            <div class="form-group">
+                <label for="contact">Contact Email</label>
+                <input type="email" id="contact" name="contact" required placeholder="Your email address">
+            </div>
+            <div class="form-group">
+                <label for="store_key">Store Key</label>
+                <input type="password" id="store_key" name="store_key" required>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Address</label>
+                <textarea id="address" name="address" required placeholder="Complete store address"></textarea>
+            </div>
+
+            <button type="submit" class="submit-button">Submit Application</button>
+        </form>
+    </div>
+</div>

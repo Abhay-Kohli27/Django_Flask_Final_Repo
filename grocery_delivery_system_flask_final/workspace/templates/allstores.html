@@ -1,0 +1,37 @@
+{% extends 'admin_dashboard.html' %}
+
+{% block store_table_block %}
+<div class="table-container">
+    <div class="table-header">
+        <h2>Store Applications</h2>
+        <div class="tabs">
+            <a href="{{ url_for('admin_dashboard' ) }}"><button class="tab">Pending</button></a>
+            <a href="{{ url_for('allstores' ) }}"><button class="tab active">All</button></a>
+
+        </div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Store Name</th>
+                <th>Owner</th>
+                <th>Category</th>
+                <th>Contact Email</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for store in all_stores %}
+            <tr>
+                <td>{{ store.storeName }}</td>
+                <td>{{ store.ownerName }}</td>
+                <td>{{ store.category }}</td>
+                <td>{{ store.contactEmail }}</td>
+            </tr>
+            {% endfor %}
+
+            <!-- More rows would be dynamically added here -->
+        </tbody>
+    </table>
+</div>
+{% endblock %}

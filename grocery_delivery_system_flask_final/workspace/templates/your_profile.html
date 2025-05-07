@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Profile - LettureEat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #1a1a1a;
+        }
+
+        .profile-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .profile-header {
+            background-color: white;
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .profile-picture {
+            width: 120px;
+            height: 120px;
+            border-radius: 60px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: #666;
+            border: 3px solid #eee;
+        }
+
+        .profile-info h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .profile-email {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .profile-membership {
+            display: inline-block;
+            padding: 6px 12px;
+            background-color: #dcfce7;
+            color: #15803d;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .profile-sections {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .profile-sections {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .section-card {
+            background-color: white;
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4b5563;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            background-color: #f8f8f8;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #1a1a1a;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .save-button {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .save-button:hover {
+            background-color: #333;
+            transform: translateY(-1px);
+        }
+
+        .order-list {
+            list-style: none;
+        }
+
+        .order-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .order-number {
+            font-weight: 500;
+        }
+
+        .order-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .order-total {
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .order-status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            background-color: #f3f4f6;
+            color: #4b5563;
+        }
+
+        .status-delivered {
+            background-color: #dcfce7;
+            color: #15803d;
+        }
+
+        .status-processing {
+            background-color: #fef3c7;
+            color: #d97706;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="profile-picture">JS</div>
+            <div class="profile-info">
+                <h1>{{current_user.userName}}</h1>
+                <div class="profile-email">{{current_user.email}}</div>
+                <div class="profile-membership">{{current_user.role | capitalize}}</div>
+                <a href="{{ url_for('logout' ) }}"><div class="profile-membership">LogOut</div></a>
+                <div class="profile-email" style="padding: 10px;"><a href="{{ url_for('home' ) }}" style="text-decoration: none;color: black;">Back To Home</a></div>
+            </div>
+        </div>
+
+        <!-- Profile Sections -->
+        <div class="profile-sections">
+            <!-- Main Profile Information -->
+            <div class="section-card">
+                <h2 class="section-title">Profile Information</h2>
+                <form>
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" value="{{current_user.userName}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" value="{{current_user.email}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" value="{{current_user.mobile}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Delivery Address</label>
+                        <textarea id="address" rows="3">{{current_user.longitude}}</textarea>
+                    </div>
+                    <button type="submit" class="save-button">Save Changes</button>
+                </form>
+            </div>
+
+            <!-- Recent Orders -->
+            <div class="section-card">
+                <h2 class="section-title">Recent Orders</h2>
+                <ul class="order-list">
+                    <li class="order-item">
+                        <div class="order-header">
+                            <span class="order-number">#ORD-2024-001</span>
+                            <span class="order-date">Feb 15, 2024</span>
+                        </div>
+                        <div class="order-total">$48.90</div>
+                        <span class="order-status status-delivered">Delivered</span>
+                    </li>
+                    <li class="order-item">
+                        <div class="order-header">
+                            <span class="order-number">#ORD-2024-002</span>
+                            <span class="order-date">Feb 14, 2024</span>
+                        </div>
+                        <div class="order-total">$35.50</div>
+                        <span class="order-status status-processing">Processing</span>
+                    </li>
+                    <li class="order-item">
+                        <div class="order-header">
+                            <span class="order-number">#ORD-2024-003</span>
+                            <span class="order-date">Feb 12, 2024</span>
+                        </div>
+                        <div class="order-total">$62.75</div>
+                        <span class="order-status status-delivered">Delivered</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
